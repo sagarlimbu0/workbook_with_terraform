@@ -1,0 +1,2 @@
+## ignore the terraform dir., it holds cached provider plugins and modules, workpace that is currently active
+**/.terraform/
