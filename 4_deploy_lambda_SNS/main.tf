@@ -77,3 +77,65 @@ resource "aws_lambda_function" "terraform_lambda_func" {
   #lambda_role= aws_iam_role.lambda_role_execution.arn
 }
 
+
+###########################################
+## Create a AWS lambda Trigger function
+
+
+## Specify the S3 bucket name
+# resource "aws_s3_bucket" "bucket" {
+#   bucket = "merra-project"
+#   # tags
+# }
+
+## Add S3 bucket where AWS lambda will trigger function
+resource "aws_s3_bucket_notification" "aws-lambda-trigger" {
+
+  bucket = "merra-project"
+  lambda_function {
+    lambda_function_arn = aws_lambda_function.terraform_lambda_func.arn
+    events              = ["s3:ObjectCreated:*"]
+    filter_prefix       = "file-prefix"
+    filter_suffix       = "file-extension"
+  }
+}
+
+## Lambda permission 
+resource "aws_lambda_permission" "test" {
+  statement_id  = "AllowS3Invoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.terraform_lambda_func.function_name
+  principal     = "s3.amazonaws.com"
+  # source_arn    = "arn:aws:s3:::${aws_s3_bucket.bucket.id}"
+
+    source_arn    = "arn:aws:s3:::merra-project"
+
+}
+
+###############################################
+## SNS topic; send email to notify
+
+resource "aws_sns_topic" "topic"{
+  name= "file-uploaded"
+}
+
+resource "aws_sns_topic_subscription" "topic_lambda"{
+  topic_arn = aws_sns_topic.topic.arn
+  protocol = "email"
+  endpoint = "sagarlimbu8525@gmail.com"
+}
+
+## lambda permission to send SNS
+resource "aws_lambda_permission" "execute_sns"{
+  statement_id = "AllowExecutionFromSNS"
+  action = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.terraform_lambda_func.arn
+  principal = "sns.amazonaws.com"
+  source_arn = aws_sns_topic.topic.arn
+
+}
+
+## output of lambda arn
+output "arn" {
+  value = aws_lambda_function.terraform_lambda_func.arn
+}
