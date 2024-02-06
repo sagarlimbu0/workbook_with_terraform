@@ -1,3 +1,6 @@
+## variables
+
+
 ## IAM policy document; statement for creating IAM role= false
 data "aws_iam_policy_document" "assume_role" {
   statement {
@@ -88,18 +91,6 @@ resource "aws_lambda_function" "terraform_lambda_func" {
 #   # tags
 # }
 
-## Add S3 bucket where AWS lambda will trigger function
-resource "aws_s3_bucket_notification" "aws-lambda-trigger" {
-
-  bucket = "merra-project"
-  lambda_function {
-    lambda_function_arn = aws_lambda_function.terraform_lambda_func.arn
-    events              = ["s3:ObjectCreated:*"]
-    filter_prefix       = "file-prefix"
-    filter_suffix       = "file-extension"
-  }
-}
-
 ## Lambda permission 
 resource "aws_lambda_permission" "test" {
   statement_id  = "AllowS3Invoke"
@@ -111,6 +102,23 @@ resource "aws_lambda_permission" "test" {
     source_arn    = "arn:aws:s3:::merra-project"
 
 }
+
+## Add S3 bucket triggering Lambda function
+## adding notification to Lambda function
+resource "aws_s3_bucket_notification" "bucket_notification" {
+
+  bucket = "merra-project"
+  lambda_function {
+    lambda_function_arn = aws_lambda_function.terraform_lambda_func.arn
+    events              = ["s3:ObjectCreated:*"]
+    filter_prefix       = "AWSLogs/"
+    filter_suffix       = ".log"
+  }
+
+  depends_on = [aws_lambda_permission.test]
+}
+
+
 
 ###############################################
 ## SNS topic; send email to notify

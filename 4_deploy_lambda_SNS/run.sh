@@ -14,3 +14,6 @@ terraform plan
 
 ## apply the code
 terraform apply
+
+## apply the code without asking confirmation
+#terraform apply -auto-approve
