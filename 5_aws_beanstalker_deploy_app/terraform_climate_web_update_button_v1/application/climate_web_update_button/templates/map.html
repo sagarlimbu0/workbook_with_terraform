@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <h2 id="context">Climate variables comparison</h2>
+    <h5>Comparing two different Variables on same time and geo-location</h5>
+     
+    <li>humidity</li>
+    <li>windspeed</li>
+    <li>temperature</li>
+    <li>cloudiness</li>
+    
+    <!-- <a href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/insitu-observations-gnss?tab=overview"
+            target="_blank" rel="noopener noreferrer">source</a>
+    <br> -->
+
+    <!-- <p class="information">
+        <b>Total column water vapor </b> refers to the integrated amount of water vapor in a vertical column of the Earth's atmosphere, 
+        typically measured in millimeters or kilograms per square meter.
+    </p>
+    <p class="information">
+        <b>Total column water vapor uncertainty, </b>in the context of Climate Data Store Copernicus, 
+            represents the degree of measurement or data quality uncertainty associated with the reported total column water 
+            vapor values, indicating the reliability or confidence in the measurements.    </p> -->
+</div>
+
+<div>
+    <select id="data_year" class="year">
+        <option value="Year">Year</option>>
+        <!-- <option value="2014">2014</option>
+        <option value="2015">2015</option>
+        <option value="2016">2016</option>
+        <option value="2017">2017</option>
+        <option value="2018">2018</option> -->
+        <!-- <option value="2019">2019</option> -->
+        <option value="2020">2020</option>
+        <!-- <option value="2021">2021</option> -->
+    </select>
+
+<!-- </div>
+<div>
+    <select id="feature" class="feature">
+        <option value="Featue">Feature</option>>
+        <option value="Brush">Brush</option>
+        <option value="Zoom">Zoom</option>
+        <option value="2021">2021</option>
+    </select>
+</div> -->
+
+
+    <p id="selected-dropdown"></p>
+
+    <!-- brush feature -->
+    <!-- <button id="button" onclick="onButtonClick()" >Select By Dragging</button> -->
+
+
+    <br>
+    <!-- SLIDER for MONTHS -->
+    <!-- <div>
+        <input type="range" min="1" max="12" value="1" class="slider" id="mySlider">
+            <p class="information">Month: </p>
+            <p id="demo"></p>
+    </div> -->
+    
+    <hr id= "divider" class="divider">
+
+    <br>
+    <button id="clearAll">Reset</button>
+
+
+         <!-- global map -->
+    <div>
+        <svg id="map" min-width="300" width="100%" height="450"></svg>
+    </div>
+
+ 
+    <script src="{{url_for('static',filename='src/map.js')}}"></script>
+    
+
+    <br>
+    <hr id= "divider" class="divider">
+    
+     <!-- GRAPHS; scatterplot, lineplots -->
+       <div>
+        <svg id="graph" min-width="300" width="100%" height="310"></svg>
+    </div>
+
+
+    <!-- <div class="container-fluid">
+        <h3 class="hidden">Parallel Graph; Aggregation by Anomalies</h2>
+    </div> -->
+
+    <div>
+        <svg id="second_graph" min-width="300" width="100%" height="560"></svg>
+    </div>
+    <br>    
+    <!-- <hr id= "divider" class="divider"> -->
+
+    <!-- <div>
+        TABLE
+    </div> -->
+ 
+    
+    <!-- TABLE -->
+    <!-- <div>
+        <svg id="second_map", min-width="200" width="100%" height="200"></svg>
+    </div> -->
+
+    <!-- Scatter plot -->
+    <!-- <div>
+        <svg id="second_map", min-width="200" width="100%" height="200"></svg>
+    </div> -->
+    
+    <!-- <div id="tooltip" style="display: none;">
+
+        <p id="xco2"> Xco2: </p>
+        <p id="Longitude">Longitude: </p>
+        <p id="Latitude">Latitude: </p>
+    </div> -->
+
+    <!-- TABLE -->
+    <table id="data-table" class="data-table" >
+        <thead>
+            <tr>
+                <!-- <th>Index</th> -->
+                <th>Date</th>
+                <!-- <br>
+                <th>Location</th> -->
+                <br>
+                <th>Xco2</th>
+                <br>&nbsp<br>
+                <th>SIF</th>
+           
+            </tr>  
+        </thead>
+        <tbody></tbody>
+    </table>
+
+
+
+
+    <!-- <div id="vis"></div> -->
+
+{% endblock %}
