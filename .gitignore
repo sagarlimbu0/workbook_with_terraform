@@ -1,2 +1,7 @@
 ## ignore the terraform dir., it holds cached provider plugins and modules, workpace that is currently active
 **/.terraform/
+
+## ignore the `state`files, it holds sensitve information of the terraform state
+**/.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
