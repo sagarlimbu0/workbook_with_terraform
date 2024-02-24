@@ -2,6 +2,6 @@
 **/.terraform/
 
 ## ignore the `state`files, it holds sensitve information of the terraform state
-**/.terraform.lock.hcl
-terraform.tfstate
-terraform.tfstate.backup
+.terraform.lock.hcl*
+terraform.tfstate*
+terraform.tfstate.backup*
