@@ -9,3 +9,7 @@
 
 '''
 find . -type d -name '.terraform' -exec rm -r {} +
+
+
+## remove state files
+find . -name '*.backup' -delete
