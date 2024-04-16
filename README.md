@@ -58,3 +58,25 @@ provider "aws" {
 ### Step 10: Clean Up (Optional)
 - If you no longer need the provisioned resources, run `terraform destroy` to tear down the infrastructure.
 - Confirm the destruction when prompted by Terraform.
+
+## ISSUE when pushing Terraform code to GitHub
+
+If you encounter issues when pushing Terraform code to GitHub, such as the repository being prevented from uploads, it may be due to sensitive information or cached files within the Terraform directory. Follow these steps to address the issue:
+
+- **Ignore Terraform Cached Files**:
+  - Ensure that Terraform's directory, typically named `.terraform`, which holds cached files, is ignored during version control.
+  - One possible solution involves using the following command:
+    ```
+    git filter-branch -f --index-filter 'git rm --cached -r --ignore-unmatch .terraform/'
+    ```
+- **Alternative Approach**:
+  - Another approach involves removing every `.terraform` directory from subdirectories.
+  - Execute the following command from the root directory of your repository:
+    ```
+    find . -type d -name '.terraform' -exec rm -r {} +
+    ```
+- **Remove State Files**:
+  - Additionally, to prevent state files from being uploaded, you can remove them using:
+    ```
+    find . -name '*.backup' -delete
+    ```
